@@ -1,0 +1,105 @@
+{% extends 'pinderApp/layout.html' %}
+
+{% block content %}
+
+<section>
+    <article class="profile__header">
+      {% if user.profile.image.url %}
+      <img src="{{ user.profile.image.url}}" alt="{{user.username}}">
+      {% else %} 
+      <img src="../../static/pinderApp/assets/user.png" alt="{{user.username}}">
+      {% endif %}
+<div class="profile__header--content">
+    <h2>{{user.first_name}} {{user.last_name}}</h2>
+    <h4>@{{user.username}}</h4>
+    <div class="followers">
+      {% if user.profile.followers %}
+      <p><span>{{user.profile.followers.count}}</span> Seguidores</p>
+      {% else %}
+      <p><span>0</span> Seguidores</p>
+      {% endif %}
+      {% if user.following  %}
+      <p><span>{{user.following.count}}</span> Seguidos</p>
+      {% else %}
+      <p><span>0</span> Seguidos</p>
+      {% endif %}
+    </div>
+    <div class="profile__information">
+      <ul>
+        {% if user.profile.localidad %}
+         <li><i class="bi bi-geo-alt-fill"></i> {{user.profile.localidad}}, {{user.profile.provincia}}</li>
+         {% else %}
+         <li><i class="bi bi-geo-alt-fill"></i> Sin especificar.</li>
+         {% endif %}
+         <li><i class="bi bi-envelope-fill"></i> {{user.email}}</li>
+
+         {% if user.profile.telefono %}
+         <li><i class="bi bi-phone-fill"></i> {{user.profile.telefono}}</li>
+         {% else %}
+         <li><i class="bi bi-phone-fill"></i> Sin especificar.</li>
+         {% endif %}
+
+         {% if user.profile.edad %}
+         <li><i class="bi bi-calendar2-week-fill"></i> {{user.profile.edad}} años</li>   
+         {% else %}
+         <li><i class="bi bi-calendar2-range-fill"></i> Sin especificar.</li>
+         {% endif %}
+
+         
+         {% if user.profile.especie_mascota  %}
+         <li><i class="bi bi-heart-fill"></i></i> {{user.profile.especie_mascota }} lover</li>
+         {% else %}
+         <li><i class="bi bi-heart-fill"></i></i> Sin especificar.</li>
+         {% endif %}
+      </ul>
+
+      <ul>
+         {% if user.profile.ocupacion %}
+          <li><i class="bi bi-file-person-fill"></i> {{user.profile.ocupacion}}</li>
+         {% else %}
+          <li><i class="bi bi-file-person-fill"></i> Sin especificar. </li>
+         {% endif %}
+
+
+        
+         {% if user.profile.espacio_abierto %}
+         <li><i class="bi bi-tree-fill"></i> {{user.profile.get_espacio_abierto_display}}</li>
+         {% else %}
+         <li><i class="bi bi-tree-fill"></i> Sin especificar.</li>
+         {% endif %}
+
+         {% if user.profile.fb%}
+         <li> <a href="{{user.profile.fb}}" target="_blank" rel="noopener noreferrer" class="social_profile"> <i class="bi bi-facebook"></i> Facebook</a>  </li>   
+         {% else %}
+         <li><i class="bi bi-facebook"></i> Sin especificar.</li>
+         {% endif %}
+
+         {% if user.profile.ig%}
+         <li> <a href="{{user.profile.ig}}" target="_blank" rel="noopener noreferrer" class="social_profile"> <i class="bi bi-instagram"></i> Instagram</a>  </li>   
+         {% else %}
+         <li><i class="bi bi-instagram"></i> Sin especificar.</li>
+         {% endif %}
+
+         {% if user.profile.tw%}
+         <li> <a href="{{user.profile.tw}}" target="_blank" rel="noopener noreferrer"  class="social_profile"> <i class="bi bi-twitter"></i> Twitter</a>  </li>   
+         {% else %}
+         <li><i class="bi bi-twitter"></i> Sin especificar.</li>
+         {% endif %}
+      </ul>
+    </div>
+    </article>
+
+    <article class="postear">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form}}
+
+
+        <button type="submit" class="btn--form">Actualizar</button>
+    </form>
+    </article>
+            
+</section>
+
+
+{% endblock %}

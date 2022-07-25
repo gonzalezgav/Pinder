@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!---- Favicon-->
+     <link rel="shortcut icon" href="{% static 'pinderApp/assets/favicon.ico' %}">
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- CSS -->
+    <link href="{% static 'pinderApp/css/style.css' %}" rel="stylesheet" />
+    <title>Registro</title>
+</head>
+
+<body class="bg-app ">
+
+    <main class="form-contenedor">
+        <section class="formulario">
+
+            <h1>Regis<span>trarse</span></h1>
+            <p class="formulario__head">¿Ya tienes cuenta? <a href="{% url 'login' %}" >Iniciar Sesion</a></p>
+            <form class="formulario__content container" method="POST">
+                {% csrf_token %}
+                {{form}}
+            
+                <button type="submit" id="submit" class="btn--form btn-landing">Registrarse</button>
+            </form>
+            <p class="form__footer">Al registarse, acepta nuestros <a href="">Terminos y condiciones.</a></p>
+        </section>
+
+        <section class="form__carousel">
+            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="{% static 'pinderApp/assets/car2.jpg' %}" class="d-block w-100" alt="michi con estilo">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="{% static 'pinderApp/assets/car1.jpg' %}" class="d-block w-100" alt="perrito amarillo">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="{% static 'pinderApp/assets/car3.jpg' %}" class="d-block w-100" alt="perrito con rosas">
+                  </div>
+                </div>
+              </div>
+            
+        </section>
+    </main>
+
+
+
+
+
+
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

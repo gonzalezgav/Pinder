@@ -1,0 +1,178 @@
+{% extends 'pinderApp/feed.html' %}
+{% block title %}Perfil - {{user.username}}{% endblock title %}
+{% load humanize %}
+{% block content %}
+
+<section class="profile">
+    <article class="profile__header">
+            {% if user.profile.image.url %}
+            <img src="{{ user.profile.image.url}}" alt="{{user.username}}">
+            {% else %} 
+            <img src="../../static/pinderApp/assets/user.png" alt="{{user.username}}">
+            {% endif %}
+    <div class="profile__header--content">
+          <h2>{{user.first_name}} {{user.last_name}}</h2>
+          <h4>@{{user.username}}</h4>
+          <div class="followers">
+            {% if user.profile.followers %}
+            <p><span>{{user.profile.followers.count}}</span> Seguidores</p>
+            {% else %}
+            <p><span>0</span> Seguidores</p>
+            {% endif %}
+            {% if user.following  %}
+            <p><span>{{user.following.count}}</span> Seguidos</p>
+            {% else %}
+            <p><span>0</span> Seguidos</p>
+            {% endif %}
+          </div>
+          <div class="profile__information">
+            <ul>
+              {% if user.profile.localidad %}
+               <li><i class="bi bi-geo-alt-fill"></i> {{user.profile.localidad}}, {{user.profile.provincia}}</li>
+               {% else %}
+               <li><i class="bi bi-geo-alt-fill"></i> Sin especificar.</li>
+               {% endif %}
+               <li><i class="bi bi-envelope-fill"></i> {{user.email}}</li>
+
+               {% if user.profile.telefono %}
+               <li><i class="bi bi-phone-fill"></i> {{user.profile.telefono}}</li>
+               {% else %}
+               <li><i class="bi bi-phone-fill"></i> Sin especificar.</li>
+               {% endif %}
+
+               {% if user.profile.edad %}
+               <li><i class="bi bi-calendar2-week-fill"></i> {{user.profile.edad}} años</li>   
+               {% else %}
+               <li><i class="bi bi-calendar2-range-fill"></i> Sin especificar.</li>
+               {% endif %}
+
+               
+               {% if user.profile.especie_mascota  %}
+               <li><i class="bi bi-heart-fill"></i></i> {{user.profile.especie_mascota }} lover</li>
+               {% else %}
+               <li><i class="bi bi-heart-fill"></i></i> Sin especificar.</li>
+               {% endif %}
+            </ul>
+
+            <ul>
+               {% if user.profile.ocupacion %}
+                <li><i class="bi bi-file-person-fill"></i> {{user.profile.ocupacion}}</li>
+               {% else %}
+                <li><i class="bi bi-file-person-fill"></i> Sin especificar. </li>
+               {% endif %}
+
+
+              
+               {% if user.profile.espacio_abierto %}
+               <li><i class="bi bi-tree-fill"></i> {{user.profile.get_espacio_abierto_display}}</li>
+               {% else %}
+               <li><i class="bi bi-tree-fill"></i> Sin especificar.</li>
+               {% endif %}
+
+               {% if user.profile.fb%}
+               <li> <a href="{{user.profile.fb}}" target="_blank" rel="noopener noreferrer" class="social_profile"> <i class="bi bi-facebook"></i> Facebook</a>  </li>   
+               {% else %}
+               <li><i class="bi bi-facebook"></i> Sin especificar.</li>
+               {% endif %}
+
+               {% if user.profile.ig%}
+               <li> <a href="{{user.profile.ig}}" target="_blank" rel="noopener noreferrer" class="social_profile"> <i class="bi bi-instagram"></i> Instagram</a>  </li>   
+               {% else %}
+               <li><i class="bi bi-instagram"></i> Sin especificar.</li>
+               {% endif %}
+
+               {% if user.profile.tw%}
+               <li> <a href="{{user.profile.tw}}" target="_blank" rel="noopener noreferrer"  class="social_profile"> <i class="bi bi-twitter"></i> Twitter</a>  </li>   
+               {% else %}
+               <li><i class="bi bi-twitter"></i> Sin especificar.</li>
+               {% endif %}
+            </ul>
+          </div>
+    
+        <div class="profile__header--content--folow">
+
+          
+
+          {% if request.user.is_authenticated %}
+		           {% if user.username != request.user.username %}
+			               {% if user not in request.user.profile.following %}
+                          <a class="follow-button" href="{% url 'follow' user.username %}">
+                            Seguir
+                          </a>
+		                  	{% else %}
+                          <a class="follow-button" href="{% url 'unfollow' user.username %}">
+                            Dejar de seguir
+                          </a>
+		                	{% endif %}
+              		{% endif %}
+	          {% endif %}
+
+        </div>
+    </div>
+             <a href="{% url 'update_profile' %}" class="edit-perfil">Editar Perfil</a>
+    </article>
+
+<article class="user-posteos">
+  <h3>{{user.posteos.count}} Publicaciones</h3>
+</article>
+<article class="profile-posteo">
+
+{% if posteos %}
+{% for d in posteos %}
+
+      <div class="profile-posteo__content">
+           <div class="profile-posteo__info">
+            <a href="{% url 'post_detail' d.pk %}">
+              <img src="{{ d.image.url}}"  class="posteo__img">
+            </a>
+              <div class="profile-posteo__info--head">
+                       <img src="{{ d.author.profile.image.url}}" alt="{{d.author.username}}">
+                   <div class="profile-posteo__info--head-content">
+                       <h2>{{d.author.first_name}} {{d.author.last_name}}</h2>
+                       <a href="{% url 'profile' d.author.username %}">@{{d.author.username}}</a>   
+                       <time data-time="#"> <i class="bi bi-clock-history"> Publicado:  </i> {{d.timestamp |naturaltime}}</time>
+                   </div> 
+                   {% if request.user == d.author %}
+                   <div class="btn-group">
+                    <button class="btn btn-feed dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-three-dots"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <li><a class="dropdown-item" href="{% url 'post_edit' d.pk %}">Editar</a></li>
+                      <li><a class="dropdown-item" href="{% url 'post_delete' d.pk %}">Eliminar</a></li>
+                    </ul>
+                  </div>
+                  {% endif %}
+                </div>
+
+                
+              </div>
+
+              <div class="profile-posteo__info__content">
+                  <h5>Nombre de mascota: {{d.nombre}}</h5>
+              </div>
+              {% if d.likes %}
+              <span class="feed-likes"> {{d.likes.all.count}} <i class="bi bi-heart-fill"> me gusta</i> </span>
+              {% else %}
+              <span class="feed-likes"> 0 <i class="bi bi-heart"></i> </span>
+              {% endif %}
+              <div class="posteo__feed-btn">
+                <a href="{% url 'post_detail' d.pk %}">Ver Posteo</a>
+              </div>
+           </div>
+      </div>
+{% endfor %}
+
+{% else %}
+
+<div class="profile-posteo-empty">
+  <p>Aun no creaste un post, haz el primero!</p>
+  <a href="{% url 'post'%}">Publicar mascota</a>
+</div>
+
+{% endif %}
+</article>
+    
+</section>
+
+{% endblock %}

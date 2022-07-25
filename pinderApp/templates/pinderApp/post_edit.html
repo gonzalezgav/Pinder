@@ -1,0 +1,14 @@
+{% extends 'pinderApp/layout.html' %}
+{% block title %}Editar Post {{post.nombre}}{% endblock title %}
+{% block content %}
+
+<article class="postear">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+       {{form}}
+        <button type="submit" class="btn--form">Actualizar Post!</button>
+    </form>
+   
+</article>
+
+{% endblock %}

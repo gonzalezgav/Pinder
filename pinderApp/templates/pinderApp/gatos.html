@@ -1,0 +1,57 @@
+{% extends 'pinderApp/feed.html' %}
+{% block title %}Gatos{% endblock title %}
+{% load humanize %}
+
+{% block content %}
+
+
+{% for d in cat %}
+
+<article class="posteo">
+    {% if d.image %}
+    <img src="{{ d.image.url}}"  class="posteo__img">
+    {% endif%}
+    <div class="posteo__info">
+         <div class="posteo__info--head">
+            <div class="posteo__info--head-r">
+            {% if d.author.profile.image.url %}
+            <img src="{{ d.author.profile.image.url}}" alt="{{d.author.username}}">
+            {% else %} 
+            <img src="../../static/pinderApp/assets/user.png" alt="{{d.author.username}}">
+            {% endif %}
+            <div class="posteo__info--head-content">
+                <h2>{{d.author.first_name}} {{d.author.last_name}}</h2>
+               <a href="{% url 'profile' d.author.username %}">@{{d.author.username}}</a>   
+               <time data-time="#"> <i class="bi bi-clock-history"> Publicado:  </i> {{d.timestamp|naturaltime}}</time>
+            </div> 
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-feed dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-three-dots"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                  <li><a class="dropdown-item" href="#">Editar</a></li>
+                </ul>
+              </div>
+         </div>  
+        <div class="posteo__info__content">
+            <h5>Nombre de mascota: {{d.nombre}}</h5>
+            <ul>
+                <li>Informacion de la mascota:</li>
+                <li>{{d.get_especie_display}}</li>
+                <li>Edad: {{d.edad}}</li>
+            </ul>
+            <p>{{d.content}}</p>
+        </div>
+        <div class="posteo__feed-btn">
+            <a href="">Ver Posteo</a>
+        </div>
+    </div>
+</article>
+
+{% endfor %}
+
+
+
+{% endblock %}

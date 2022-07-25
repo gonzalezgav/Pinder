@@ -1,0 +1,19 @@
+{% extends 'pinderApp/layout.html' %}
+{% block title %}Borrar commentario {{post.nombre}}{% endblock title %}
+{% block content %}
+
+<article class="postear container">
+    <form method="post" enctype="multipart/form-data" class="form-delete">
+        {% csrf_token %}
+       
+        <h2>BORRAR COMENTARIO!</h2>
+        <p>¿Esta seguro de eliminar el comentario?</p>
+        <div class="article-delete">
+            <a href="{% url 'feed'%}" class="btn">Cancelar</a>
+            <button type="submit" class="btn--form btn">Borrar!</button>
+        </div>
+    </form>
+   
+</article>
+
+{% endblock %}

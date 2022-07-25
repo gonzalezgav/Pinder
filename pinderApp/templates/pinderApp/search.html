@@ -1,0 +1,57 @@
+{% extends 'pinderApp/layout.html' %}
+{% block title %}Resultados{% endblock title %}
+{% load humanize %}
+
+
+{% block content %}
+
+<section class="container search__content">
+
+
+    {% if usersearch %}
+
+    {% for s in usersearch %}
+    <article class="search__content--info">
+        <img src="{{s.profile.image.url}}" alt="">
+        <div class="search__information">
+            <h2>{{s.first_name}} {{s.last_name}}</h2>
+            <a href="{% url 'profile' s.username %}">@{{s}}</a>
+            {% if user.profile.localidad %}
+               <p><i class="bi bi-geo-alt-fill"></i> {{user.profile.localidad}}, {{user.profile.provincia}}</p>
+               {% else %}
+               <p><i class="bi bi-geo-alt-fill"></i> Sin especificar.</p>
+               {% endif %}
+               <p><i class="bi bi-envelope-fill"></i> {{user.email}}</p>
+            <div class="followers">
+                {% if s.profile.followers %}
+                <p><span>{{s.profile.followers.count}}</span> Seguidores</p>
+                {% else %}
+                <p><span>0</span> Seguidores</p>
+                {% endif %}
+                {% if s.following  %}
+                <p><span>{{s.following.count}}</span> Seguidos</p>
+                {% else %}
+                <p><span>0</span> Seguidos</p>
+                {% endif %}
+              </div>
+              <a href="{% url 'profile' s.username %}" class="search_profile-url">Ir al Perfil</a>
+        </div>
+    </article>
+    
+    {% endfor %}
+
+    {% else %}
+
+    <p>USUARIO NO ENCONTRADO </p>
+    
+  
+    {% endif %}
+
+
+
+
+</section>
+
+
+
+{% endblock %}

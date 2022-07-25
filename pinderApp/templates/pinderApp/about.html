@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!---- Favicon-->
+    <link rel="shortcut icon" href="{% static 'pinderApp/assets/favicon.ico' %}">
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- CSS -->
+    <link href="{% static 'pinderApp/css/style.css' %}" rel="stylesheet" />
+    <title>Sobre nosotros</title>
+</head>
+
+<body class="bg-app ">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'inicio' %}"><img src="{% static 'pinderApp/assets/logo.png' %}" alt="logo"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end bg-dark " tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header ">
+                    <h5 class="offcanvas-title text-light" id="offcanvasNavbarLabel">Pinder </h5>
+                    <button type="button" class="btn-close text-light" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body bg-dark">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        {% if request.user.is_authenticated %}
+
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{% url 'feed' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about' %}">Sobre Nosotros</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Log <span>Out</span></a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about' %}">Sobre Nosotros</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register'%}">Sign <span>Up</span></a>
+                        </li><li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Log <span>In</span></a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="about">
+                            <h1>Sobre nosotros</h1>
+            <article class="about__content">
+                <img src="{% static 'pinderApp/assets/fer.png' %}" alt="Fernando">
+                <div class="about__info">
+                    <h2>Fernando Alarcon</h2>
+                    <h6>Desarrollador Front end</h6>
+                    <p>Hola soy Fernando Alarcón de 27 años de edad, soy un desarrollador Front End Argentino, comencé en el mundo de la programación hace dos años, arranque estudiando sobre html y css, luego seguí el camino del front end. A futuro me interesa entrar al mundo de la ciberseguridad y hacking ético. Mi objetivo es crecer y aprender de ese mundo para expandir mi stack tecnológico.</p>
+                    <div class="about__info--social">
+                        <a href="https://github.com/feralarcon1995" target="_blank">Github</a>
+                        <a href="https://www.linkedin.com/in/feralarcon1995/" target="_blank">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="about__content">
+                <img src="{% static 'pinderApp/assets/gavi.png' %}" alt="Gavina">
+                <div class="about__info">
+                    <h2>Gavina Gonzalez</h2>
+                    <h6>Contadora Publica</h6>
+                    <p>Hola soy Gavina Gonzalez, tengo 34 años y comencé en el mundo de la programación conociendo sobre el leguaje Python, espero seguir aprendiendo y algún día poder contribuir con páginas web vinculadas a Control de Gestión.</p>
+                    <div class="about__info--social">
+                        <a href=" https://github.com/gonzalezgav" target="_blank">Github</a>
+                        <a href="https://www.linkedin.com/in/gavina-gonzalez-piris-928172113/" target="_blank">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="about__content">
+                <img src="{% static 'pinderApp/assets/fran.png' %}" alt="Francisco">
+                <div class="about__info">
+                    <h2>Francisco Pablo Licciardi</h2>
+                    <h6>Recruiter</h6>
+                    <p>Hola, soy Francisco Licciardi, de 28 años de edad, soy un Recruiter  con 5 años de experiencia. Recientemente encontré mi vocación en  IT por lo que decidí iniciar mi desarrollo profesional en esta área. Actualmente me encuentro cursando la carrera de Análisis y desarrollo de sistemas, y Desarrollo web con Python. Mi meta es expandir mis conocimientos y crecer profesionalmente ya que en la era de la informacion no hay fronteras, y es un mundo que nos ofrece un sinfin de posibilidades.</p>
+                    <div class="about__info--social">
+                        <a href="https://github.com/flicciardi3112" target="_blank">Github</a>
+                        <a href="https://www.linkedin.com/in/francisco-pablo-licciardi-95a37016b/" target="_blank">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+    
+        </section>
+    </main>
+
+<!--footer-->
+<footer class="landing__footer">
+    <ul>
+        <li>
+            <a href=""><i class="bi bi-facebook"></i></a>
+        </li>
+        <li>
+            <a href=""><i class="bi bi-instagram"></i></a>
+        </li>
+        <li>
+            <a href=""><i class="bi bi-twitter"></i></a>
+        </li>
+    </ul>
+
+    <p>© 2022 Pinder derechos reservados.</p>
+
+</footer>
+
+
+
+
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

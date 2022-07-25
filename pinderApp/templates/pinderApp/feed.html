@@ -1,0 +1,88 @@
+{% extends 'pinderApp/layout.html' %}
+{% block title %}Feed{% endblock title %}
+{% load humanize %}
+{% block content %}
+
+     <section class="crear__post">
+        <article class="crear__post-user">
+            {% if user.profile.image.url %}
+            <img src="{{user.profile.image.url}}" alt="{{user.username}}">
+            {%else%}
+            <img src="../../static/pinderApp/assets/user.png" alt="{{user.username}}">
+            {% endif %}
+            <a href="{% url 'profile' user.username %}">Hola, @{{user.username}}</a>   
+        </article>
+        <a href="{% url 'post'%}">Publicar mascota</a>
+    </section>
+    
+    <section class="filtro">
+        <article class="perro">
+            <a href="{% url 'perros' %}"> Buscar Perros</a>
+    </article>
+    <article class="gato">
+        <a href="{% url 'gatos' %}">
+            Buscar Gatos
+        </a>
+    </article>
+    </section>
+
+{% for d in data %}
+
+<article class="posteo">
+    {% if d.image %}
+    <a href="{% url 'post_detail' d.pk %}">
+        <img src="{{ d.image.url}}"  class="posteo__img">
+    </a>
+    {% endif%}
+    <div class="posteo__info">
+         <div class="posteo__info--head">
+            <div class="posteo__info--head-r">
+            {% if d.author.profile.image.url %}
+            <img src="{{ d.author.profile.image.url}}" alt="{{d.author.username}}">
+            {% else %} 
+            <img src="../../static/pinderApp/assets/user.png" alt="{{d.author.username}}">
+            {% endif %}
+            <div class="posteo__info--head-content">
+                <h2>{{d.author.first_name}} {{d.author.last_name}}</h2>
+                <time data-time="#"> <i class="bi bi-clock-history"> Publicado: </i> {{d.timestamp|naturaltime}} por: <a href="{% url 'profile' d.author %}"> @{{d.author}}</a>   </time>
+              
+            </div> 
+            </div>
+            {% if request.user == d.author %}
+            <div class="btn-group">
+                <button class="btn btn-feed dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-three-dots"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="{% url 'post_edit' d.pk %}">Editar</a></li>
+                  <li><a class="dropdown-item" href="{% url 'post_delete' d.pk %}">Eliminar</a></li>
+                </ul>
+              </div>
+            {% endif %}
+         </div>  
+        <div class="posteo__info__content">
+            <h5>Nombre de mascota: {{d.nombre}}</h5>
+            <ul>
+                <li>Informacion de la mascota:</li>
+                <li>{{d.get_especie_display}}</li>
+                <li>Edad: {{d.edad}} años</li>
+            </ul>
+            <p>{{d.content}}</p>
+            {% if d.likes %}
+            <span class="feed-likes"> {{d.likes.all.count}} <i class="bi bi-heart-fill"> me gusta</i> </span>
+            {% else %}
+            <span class="feed-likes"> 0 <i class="bi bi-heart"></i> </span>
+            {% endif %}
+        </div>
+      
+         
+        <div class="posteo__feed-btn">
+            
+           <a href="{% url 'post_detail' d.pk %}">Ver Posteo</a>
+        </div>
+    </div>
+</article>
+
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'pinderApp/layout.html' %}
+{% block title %}Post de {{post.nombre}}{% endblock title %}
+{% load humanize %}
+{% block content %}
+
+<article class="posteo__detail">
+       <div class="posteo__info--head-detail">
+            <div class="posteo__info--head-r detail-user-img">
+                {% if post.author.profile.image.url %}
+                <img src="{{ post.author.profile.image.url}}" alt="{{post.author.username}}" class="">
+                {% else %} 
+                <img src="../../static/pinderApp/assets/user.png" alt="{{post.author.username}}">
+                {% endif %}
+                <div class="posteo__info--head-content">
+                  <h2>{{post.author.first_name}} {{post.author.last_name}}</h2>
+                  <time data-time="#"> <i class="bi bi-clock-history"> Publicado: </i> {{post.timestamp|naturaltime}} por: <a href="{% url 'profile' post.author %}"> @{{post.author}}</a>   </time>
+                </div> 
+             </div>
+             {% if request.user == post.author %}
+             <div class="btn-group">
+                  <button class="btn btn-feed dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots"></i>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <li><a class="dropdown-item" href="{% url 'post_edit' post.pk %}">Editar</a></li>
+                      <li><a class="dropdown-item" href="{% url 'post_delete' post.pk %}">Eliminar</a></li>
+                  </ul>
+             </div>
+             {% endif %}
+       </div>  
+    <img src="{{ post.image.url}}"  class="posteo__img">
+    <div class="posteo__info-detail">
+        
+        <div class="posteo__info__content--detail">
+            <h3>Nombre de mascota:</h3>
+            <p class="post__detail-title">{{post.nombre}}</p>
+            <ul>
+                <li>Informacion de la mascota:</li>
+                <li><span class="span__detail"> Especie: </span> {{post.get_especie_display}}</li>
+                <li><span class="span__detail"> Edad: </span> {{post.edad}}</li>
+                <li><span class="span__detail"> Sexo: </span> {{post.get_sexo_display}}</li>
+                <li><span class="span__detail"> Tamaño:</span>  {{post.get_tamanio_display}}</li>
+                <li><span class="span__detail"> Vacunas aplicadas: </span> {{post.vacunas_aplicadas}}</li>
+                <li><span class="span__detail"> ¿Esta castrado?:</span>  {{post.get_castracion_display}}</li>
+                <li><span class="span__detail"> ¿Esta desparacitado?: </span> {{post.get_desparasitado_display}}</li>
+                <li><span class="span__detail"> Discapacidad: </span>  {{post.discapacidad}}</li>
+            </ul>
+            <h4>Descripcion:</h4>
+            <p class="post__detail-descripcion">{{post.content}}</p>
+            <div class="post__detail--react">
+
+              {% if post.likes %}
+              <span class=""> {{post.likes.all.count}} <i class="bi bi-heart-fill"></i> </span>
+              {% else %}
+              <span class=""> 0 <i class="bi bi-heart"></i> </span>
+              {% endif %}
+                <form method="POST" action="{% url 'like' post.pk %}">
+                   {% csrf_token %}
+                   <input type="hidden" name="next" value={{request.path}}>
+                   <button type="submit">
+                    Me gusta
+                   </button>     
+                </form>
+
+            </div>
+        </div>
+         
+    </div>
+</article>
+
+<article class="comments">
+  <div class="posteo__comments">
+    {% if comments %}
+    {% for comment in comments %}
+    <div class="comments__author">
+      <div class="posteo__info--head-detail">
+        <div class="posteo__info--head-r detail-user-img">
+          <a href="{% url 'profile' comment.author %}">
+            {% if comment.author.profile.image.url %}
+            <img src="{{ comment.author.profile.image.url}}" alt="{{comment.author.username}}" class="">
+            {% else %} 
+            <img src="../../static/pinderApp/assets/user.png" alt="{{comment.author.username}}">
+            {% endif %}
+          </a>   
+        <div class="posteo__info--head-content">
+            <h2>{{comment.author.first_name}} {{comment.author.last_name}}</h2>
+            <time data-time="#"> <i class="bi bi-clock-history"></i> {{comment.timestamp|naturaltime}} por: <a href="{% url 'profile' comment.author %}"> @{{comment.author}}</a>   </time>
+          
+        </div> 
+        </div>
+     </div>  
+     <div class="comments__contenido">
+      <p>
+        {{comment.comment}}
+       </p>
+       <div class="comments__contenido-btn">
+       {% if request.user == comment.author %}
+        <a href="{% url 'comment_edit' post.pk comment.pk %}">Editar</a>
+        <a href="{% url 'comment_delete' post.pk comment.pk %}">Eliminar</a>
+       {% endif %}
+      </div>
+     </div>
+    </div>
+    {% endfor %} 
+    {% else %}
+    <h2>Aun no hay comentarios, se el primero.</h2>
+    {% endif %} 
+  </div>
+  <div class="posteo__coments-create">
+    <form action="" method="POST">
+      {% csrf_token %}
+      {{form.comment}}
+      <button type="submit" class="btn-comment">Comentar</button>
+    </form>
+   </div>
+</article>
+
+{% endblock %}
