@@ -62,3 +62,4 @@ Vista para crear tu usuario o ir al login si ya tenes cuenta.
 
 ## 🛠 Skills
 Python , Django, Sqlite, Html, Css
+https://drive.google.com/file/d/12Z7WFeVDs36Qam1603TNtG3UAUGer3zE/view
